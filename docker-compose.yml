@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build:
+      context: .
+      args:
+        # NEXT_PUBLIC_ はビルド時に必要なため ARG で渡す
+        NEXT_PUBLIC_CONVEX_URL: ${NEXT_PUBLIC_CONVEX_URL}
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    # ランタイムのシークレットは env_file から
+    env_file:
+      - .env.local
+    environment:
+      - NODE_ENV=production
+
+# Docker Secrets を使う場合（本番環境推奨）
+# secrets:
+#   notion_api_key:
+#     external: true
